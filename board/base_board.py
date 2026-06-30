@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 class BaseBoard(ABC):
-    def __init__(self, rows, cols, num_mines):
+    def __init__(self, rows, cols, num_mines, seed=None):
         '''
         Initialize the board with the given dimensions and number of mines.
         '''
@@ -9,6 +9,7 @@ class BaseBoard(ABC):
         self.cols = cols
         self.num_mines = num_mines
         self.mines = [[False]*cols for _ in range(rows)]
+        self.seed = seed
 
         '''
         -1 : hidden
@@ -61,6 +62,19 @@ class BaseBoard(ABC):
         for r in range(self.rows):
             for c in range(self.cols):
                 if self.visible[r][c] == -1:
+                    print('.', end=' ')
+                elif self.visible[r][c] == -2:
+                    print('F', end=' ')
+                else:
+                    print(self.visible[r][c], end=' ')
+            print()
+    
+    def print_test_board(self, bombs):
+        for r in range(self.rows):
+            for c in range(self.cols):
+                if (r, c) in bombs:
+                    print('B', end=' ')
+                elif self.visible[r][c] == -1:
                     print('.', end=' ')
                 elif self.visible[r][c] == -2:
                     print('F', end=' ')

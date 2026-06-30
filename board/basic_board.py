@@ -18,13 +18,14 @@ class BasicBoard(BaseBoard):
                     for c in range(self.cols)
                     if (r, c) not in exclude_bomb
         ]
+        random.seed(self.seed)
         for r, c in random.sample(candidates, self.num_mines):
             self.mines[r][c] = True
         self.reveal(exclude_row, exclude_col)
 
 
 if __name__ == "__main__":
-    board = BasicBoard(5, 10, 5)
+    board = BasicBoard(5, 10, 5, seed=42)
     board.generate(2, 7)
     board.reveal(0, 0)
     board.print_board()
